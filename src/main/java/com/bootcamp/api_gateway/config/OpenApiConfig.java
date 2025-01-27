@@ -30,7 +30,7 @@ public class OpenApiConfig {
         return openApi -> {
             Paths paths = new Paths();
 
-            paths.addPathItem("/api/users/**", new PathItem()
+            paths.addPathItem("/api/users", new PathItem()
                     .get(new Operation()
                             .tags(List.of("User Service"))
                             .summary("Obtiene usuarios")
@@ -39,7 +39,7 @@ public class OpenApiConfig {
                                     .addApiResponse("200", new ApiResponse().description("Éxito"))
                                     .addApiResponse("500", new ApiResponse().description("Error interno")))));
 
-            paths.addPathItem("/api/orders/**", new PathItem()
+            paths.addPathItem("/api/orders", new PathItem()
                     .post(new Operation()
                             .tags(List.of("Order Service"))
                             .summary("Crea órdenes")
@@ -48,7 +48,7 @@ public class OpenApiConfig {
                                     .addApiResponse("201", new ApiResponse().description("Creado"))
                                     .addApiResponse("500", new ApiResponse().description("Error interno")))));
 
-            paths.addPathItem("/api/products/**", new PathItem()
+            paths.addPathItem("/api/products", new PathItem()
                     .get(new Operation()
                             .tags(List.of("Product Service"))
                             .summary("Obtiene productos")
