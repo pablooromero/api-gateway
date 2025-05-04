@@ -1,7 +1,7 @@
 package com.api_gateway.api_gateway.config;
 
 import jakarta.ws.rs.core.HttpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpStatus;
@@ -10,14 +10,11 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
+@RequiredArgsConstructor
 public class AdminFilter implements GatewayFilter {
-    @Autowired
-    private JwtUtils jwtUtil;
 
+    private final JwtUtils jwtUtil;
 
-    public AdminFilter(JwtUtils jwtUtils){
-        this.jwtUtil = jwtUtils;
-    }
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         token = token.substring(7);
