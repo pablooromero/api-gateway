@@ -44,6 +44,11 @@ public class GatewayConfig {
                 .route("accreditations-users", r -> r.path("/api/accreditations/**")
                         .filters(f -> f.filters(    jwtAuthenticationFilter))
                         .uri("lb://accreditations-service") )
+                .route("oauth2-login", r -> r.path("/oauth2/**")
+                        .uri("lb://user-service"))
+
+                .route("oauth2-callback", r -> r.path("/login/oauth2/code/**")
+                        .uri("lb://user-service"))
                 .build();
     }
 }
