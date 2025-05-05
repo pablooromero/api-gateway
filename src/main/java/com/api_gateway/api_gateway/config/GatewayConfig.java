@@ -1,5 +1,6 @@
 package com.api_gateway.api_gateway.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -7,13 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class GatewayConfig {
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Autowired
-    private AdminFilter adminFilter;
+    private final AdminFilter adminFilter;
 
     @Bean
     public RouteLocator customRouter(RouteLocatorBuilder routeLocatorBuilder){
@@ -22,6 +22,9 @@ public class GatewayConfig {
                         .uri("lb://user-service") )
                 .route("user-service", r -> r.path("/api/users/**")
                         .filters(f -> f.filter(jwtAuthenticationFilter))
+                        .uri("lb://user-service") )
+                .route("user-service-admin", r -> r.path("/api/admins/**")
+                        .filters(f -> f.filters(adminFilter, jwtAuthenticationFilter))
                         .uri("lb://user-service") )
                 .route("sales-point-admin", r -> r.path("/api/sales-point/admin/**")
                         .filters(f -> f.filters(adminFilter, jwtAuthenticationFilter))

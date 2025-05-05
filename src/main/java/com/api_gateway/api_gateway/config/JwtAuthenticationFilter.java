@@ -1,6 +1,7 @@
 package com.api_gateway.api_gateway.config;
 
 import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -12,14 +13,10 @@ import reactor.core.publisher.Mono;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter implements GatewayFilter {
 
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    public JwtAuthenticationFilter(JwtUtils jwtUtils) {
-        this.jwtUtils = jwtUtils;
-    }
+    private final JwtUtils jwtUtils;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
